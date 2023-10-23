@@ -110,6 +110,18 @@ data:
           {{- printf "Invalid value for S3 storage provider authentication type. Expected one of (iam, accesskey), but got: %s" .authType | fail }}
           {{- end }}
         {{- end }}
+        {{- else if eq "azure" .provider }}
+        {{- with .custom.stow.config }}
+        kind: azure
+        config:
+          account: {{ .account }}
+          {{- if .key }}
+          key: {{ .key }}
+          {{- end }}
+          {{- if ".enable-multicontainer" }}
+          enable-multicontainer: {{ ".enable-multicontainer" }}
+          {{- end }}
+        {{- end }}
         {{- else if eq "gcs" .provider }}
         kind: google
         config:
